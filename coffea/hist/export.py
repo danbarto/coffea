@@ -17,7 +17,7 @@ class TAxis(object):
         self._fXmax = fXmax
 
 
-def export1d(hist):
+def export1d(hist, overflow='none'):
     """Export a 1-dimensional `Hist` object to uproot
 
     This allows one to write a coffea histogram into a ROOT file, via uproot.
@@ -59,6 +59,15 @@ def export1d(hist):
     out._fXaxis._fTitle = axis.label
     if not axis._uniform:
         out._fXaxis._fXbins = edges.astype(">f8")
+
+    if overflow=='under' or overflow=='all':
+        sumw[1] += sumw[0]
+        sumw2[1] += sumw2[0]
+    
+    if overflow=='over' or overflow=='all':
+        sumw[-2] += sumw[-1]
+        sumw2[-2] += sumw2[-1]
+
 
     centers = (edges[:-1] + edges[1:]) / 2.0
     out._fEntries = out._fTsumw = out._fTsumw2 = sumw[1:-1].sum()

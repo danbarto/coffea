@@ -109,7 +109,7 @@ class extractor(object):
             file_dots = os.path.basename(drop_gz).split(".")
             theformat = file_dots[-1].strip()
             thetype = "default"
-            if len(file_dots) > 2:
+            if len(file_dots) > 3:
                 thetype = file_dots[-2]
             self._filecache[thefile] = file_converters[theformat][thetype](thefile)
 
